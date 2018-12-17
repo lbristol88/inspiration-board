@@ -6,6 +6,9 @@ import './Board.css';
 import Card from './Card';
 import NewCardForm from './NewCardForm';
 
+
+const URL = 'https://inspiration-board.herokuapp.com/boards/LAYLA/cards';
+
 class Board extends Component {
   constructor() {
     super();
@@ -15,11 +18,20 @@ class Board extends Component {
     };
   }
 
-  render() {
-    const cards = this.props.cardData
+  componentDidMount() {
+    axios.get(URL)
+    .then((response) => {
+      this.setState({cards: response.data});
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-    const cardCollection = cards.map((card, i) => {
-      return <Card key={i} text={card.text} emoji={card.emoji} />
+  }
+
+  render() {
+    const cardCollection = this.state.cards.map((card_obj, i) => {
+      return <Card key={i} id={card_obj.card.id} text={card_obj.card.text} emoji={card_obj.card.emoji} />
     });
 
     return (
