@@ -8,14 +8,20 @@ class Card extends Component {
   render() {
     return (
       <div className="card">
-        Card
+        <div className="card__content">
+          <p className="card__content-text">
+            {this.props.text}
+          </p>
+          </div>
       </div>
     )
   }
 }
 
 Card.propTypes = {
-
+  id: PropTypes.number,
+  text: PropTypes.string,
+  emoji: PropTypes.string,
 };
 
 export default Card;

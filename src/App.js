@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import './App.css';
 import Board from './components/Board';
+import CARD_DATA from './data/card-data.json';
+
 
 class App extends Component {
+
+  constructor() {
+     super();
+      this.state = {
+       value: 'LAYLA',
+       boards: []
+     };
+   }
+
   render() {
     return (
       <section>
@@ -11,7 +22,8 @@ class App extends Component {
         </header>
         <Board
           url="https://inspiration-board.herokuapp.com/boards/"
-          boardName={`Ada-Lovelace`}
+          boardName={this.state.value}
+          cardData={CARD_DATA.cards}
           />
       </section>
     );

@@ -5,7 +5,6 @@ import axios from 'axios';
 import './Board.css';
 import Card from './Card';
 import NewCardForm from './NewCardForm';
-import CARD_DATA from '../data/card-data.json';
 
 class Board extends Component {
   constructor() {
@@ -17,9 +16,15 @@ class Board extends Component {
   }
 
   render() {
+    const cards = this.props.cardData
+
+    const cardCollection = cards.map((card, i) => {
+      return <Card key={i} text={card.text} emoji={card.emoji} />
+    });
+
     return (
-      <div>
-        Board
+      <div className="board">
+        {cardCollection}
       </div>
     )
   }
@@ -27,6 +32,7 @@ class Board extends Component {
 }
 
 Board.propTypes = {
+  cardData: PropTypes.array.isRequired
 
 };
 
