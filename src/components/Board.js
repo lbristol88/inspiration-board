@@ -7,7 +7,7 @@ import Card from './Card';
 import NewCardForm from './NewCardForm';
 
 
-const URL = 'https://inspiration-board.herokuapp.com/boards/LAYLA/cards';
+const URL = 'https://inspiration-board.herokuapp.com';
 
 class Board extends Component {
   constructor() {
@@ -18,20 +18,44 @@ class Board extends Component {
     };
   }
 
+// This loads all cards from the API
   componentDidMount() {
-    axios.get(URL)
+    const cardsURL = `${URL}/boards/LAYLA/cards`
+    axios.get(cardsURL)
     .then((response) => {
       this.setState({cards: response.data});
     })
     .catch((error) => {
       console.log(error);
     });
+  }
+
+  deleteCard = (cardID) => {
+    const cardURL = `${URL}/cards/${cardID}`;
+    axios.delete(cardURL)
+    .then(() => {
+      let cardsCopy = [...this.state.cards];
+      let index = cardsCopy.findIndex(cardData => cardData.card.id === cardID);
+      cardsCopy.splice(index, 1);
+
+      this.setState({cards: cardsCopy});
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 
   }
 
+
   render() {
     const cardCollection = this.state.cards.map((card_obj, i) => {
-      return <Card key={i} id={card_obj.card.id} text={card_obj.card.text} emoji={card_obj.card.emoji} />
+      return <Card
+                key={i}
+                id={card_obj.card.id}
+                text={card_obj.card.text}
+                emoji={card_obj.card.emoji}
+                deleteCardCallback={this.deleteCard}
+              />
     });
 
     return (
@@ -45,7 +69,6 @@ class Board extends Component {
 
 Board.propTypes = {
   cardData: PropTypes.array.isRequired
-
 };
 
 export default Board;
