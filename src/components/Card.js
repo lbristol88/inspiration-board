@@ -5,10 +5,14 @@ import emoji from 'emoji-dictionary';
 import './Card.css';
 
 class Card extends Component {
+
+
   onDeleteHandler = (event) => {
     event.preventDefault();
     this.props.deleteCardCallback(this.props.id);
   }
+
+
 
   render() {
     const emojiName = this.props.emoji ? this.props.emoji : '';

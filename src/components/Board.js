@@ -46,6 +46,25 @@ class Board extends Component {
 
   }
 
+  addCard = (newCard) => {
+    //   const cards = this.state.cards;
+    //   cards.push(newCard);
+    //   this.setState({cards: card});
+    //   console.log(newCard, this.state.cards)
+    //   console.log("im here bitches")
+    const newURL = `${URL}/boards/LAYLA/cards`
+
+    axios.post(newURL, newCard)
+      .then((response) => {
+        const cards = this.state.cards;
+        cards.push(response.data);
+        this.setState({cards: cards});
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+    }
+
 
   render() {
     const cardCollection = this.state.cards.map((card_obj, i) => {
@@ -61,7 +80,10 @@ class Board extends Component {
     return (
       <div className="board">
         {cardCollection}
+        <NewCardForm addCardCallback={this.addCard}/>
+
       </div>
+
     )
   }
 
